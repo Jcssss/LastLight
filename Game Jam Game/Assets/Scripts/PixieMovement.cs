@@ -15,6 +15,7 @@ public class PixieMovement : MonoBehaviour
 
     // firing variables
     private bool mouseDown = false;
+    private bool mouse2Down = false;
     private bool canFire = true;
     private bool firing = false;
     private float lastFired;
@@ -32,11 +33,16 @@ public class PixieMovement : MonoBehaviour
 	
 
     void Update() {
-        // holding down mouse button
         if(Input.GetMouseButton(0)) {
             mouseDown = true;
         } else {
             mouseDown = false;
+        }
+
+        if(Input.GetMouseButton(1)) {
+            mouse2Down = true;
+        } else {
+            mouse2Down = false;
         }
 
         // get surroundings
@@ -57,7 +63,7 @@ public class PixieMovement : MonoBehaviour
 
     void FixedUpdate() {	
         
-        if(mouseDown && canFire){
+        if(mouseDown && canFire && isAttached){
             Fire();
             Detach();
         }
@@ -70,15 +76,19 @@ public class PixieMovement : MonoBehaviour
 
             MoveToward(targetPosition);
 
-        } else if (isAttached) {
-            Vector3 pos = offsetToPlayer.position;
-            pos.y += Mathf.Sin(Time.time / idleBobFrequency) * idleBobMagnitude;
-            MoveToward(pos);
+        } else if(mouse2Down) {
+            Attach();
         }
 
         if (lastFired + firingCooldown < Time.time) {
             canFire = true;
         }
+
+        // idle bob
+        if(idleBobFrequency <= 0) idleBobFrequency = 0.001f;
+        Vector3 pos = isAttached? offsetToPlayer.position : targetPosition;
+        pos.y += Mathf.Sin(Time.time / idleBobFrequency) * idleBobMagnitude;
+        MoveToward(pos);
     }
 
     private void Fire() {
@@ -104,8 +114,8 @@ public class PixieMovement : MonoBehaviour
     }
 
     void OnValidate() {
-        if(idleBobFrequency <= 0.001f) {
-            idleBobFrequency = 0.001f;
+        if(idleBobFrequency < 0) {
+            idleBobFrequency = 0;
         }
     }
 }

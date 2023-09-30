@@ -28,6 +28,8 @@ public class CrawlingEnemy : MonoBehaviour
     bool isAggro = false;
 
     // rigidbody movement
+    Vector3 v = Vector3.zero; 
+    float smoothTime = 0.3f;
     
 
     void Start()
@@ -43,18 +45,31 @@ public class CrawlingEnemy : MonoBehaviour
     }
 
     void FixedUpdate() {
+
+
         //go towards player if in range
         if (playerIsWithin(distance) || isAggro) {
-
+            /*
             Vector3 temp = Vector2.MoveTowards(transform.position, pixiePos.position, speed * Time.deltaTime);
             temp.y = transform.position.y;
             transform.position = temp;
+            */
+        
+        
+            if(!isGrounded()) return;
+
+
+            // Move the character by finding the target velocity
+            Vector3 dir = pixiePos.position - transform.position;
+            dir = Vector3.Normalize(dir);
+			Vector3 targetVelocity = new Vector2(dir.x * 10f, rb.velocity.y);
+			// And then smoothing it out and applying it to the character
+			rb.velocity = Vector3.SmoothDamp(rb.velocity, targetVelocity, ref v, smoothTime);
 
             // if in closer distance, jump
             // can't jump again until pixie reenters said closer distance
             if (playerIsWithin(jumpDistance)) {
-                if(canJump) {
-                    Debug.Log("jump");
+                if(canJump && isGrounded()) {
                     jumpAtTarget(pixiePos.position);
                     canJump = false;
                 }
@@ -95,7 +110,7 @@ public class CrawlingEnemy : MonoBehaviour
 
     bool isGrounded() {
         Vector2 lineCastPos = trans.position + (trans.right * width);
-        return Physics2D.Linecast(lineCastPos, lineCastPos + Vector2.down * 0.5f, enemyMask);
+        return Physics2D.Linecast(lineCastPos, lineCastPos + Vector2.down, enemyMask);
     }
 
     bool playerIsWithin(float d) {
