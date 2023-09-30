@@ -30,19 +30,14 @@ public class CrawlingEnemy : MonoBehaviour
     private void FixedUpdate()
     {
         //go towards player if in range
-        if (Vector2.Distance(transform.position, pixiePos.position) < distance)
-        {
+        if (Vector2.Distance(transform.position, pixiePos.position) < distance) {
             Vector3 rotation = trans.eulerAngles;
             //the ? statement doesn't seem to work to make it turn around and idk why
             transform.position = Vector2.MoveTowards(transform.position, pixiePos.position, speed * Time.deltaTime * (rotation.y == 0 ? -1 : 1));
-        }
-        else
-        {
-            if (Vector2.Distance(transform.position, initialPos) <= 0)
-            {
+        } else {
+            if (Vector2.Distance(transform.position, initialPos) <= 0)  {
 
-            }
-            else //otherwise go back and forth on platform
+            } else //otherwise go back and forth on platform
             {
                 //get linecast for bottom corner of enemy in direction its moving
                 Vector2 lineCastPos = trans.position + (trans.right * width);
