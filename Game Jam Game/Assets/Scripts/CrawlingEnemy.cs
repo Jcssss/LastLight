@@ -17,6 +17,19 @@ public class CrawlingEnemy : MonoBehaviour
     private Vector2 initialPos;
     public float distance;
 
+    // jump stuff
+    public float jumpForce;
+    public float jumpHeight;
+    private bool canJump = true;
+    private bool jumping = false;
+    private float jumpDistance;
+
+    // mode
+    bool isAggro = false;
+
+    // rigidbody movement
+    
+
     void Start()
     {
         pixiePos = pixie.GetComponent<Transform>();
@@ -25,40 +38,67 @@ public class CrawlingEnemy : MonoBehaviour
         trans = this.transform;
         rb = this.GetComponent<Rigidbody2D>();
         width = GetComponent<SpriteRenderer>().bounds.extents.x;
+
+        jumpDistance = distance * 0.75f;
     }
 
-    private void FixedUpdate()
-    {
+    void FixedUpdate() {
         //go towards player if in range
-        if (Vector2.Distance(transform.position, pixiePos.position) < distance) {
-            Vector3 rotation = trans.eulerAngles;
-            //the ? statement doesn't seem to work to make it turn around and idk why
-            transform.position = Vector2.MoveTowards(transform.position, pixiePos.position, speed * Time.deltaTime * (rotation.y == 0 ? -1 : 1));
-        } else {
-            if (Vector2.Distance(transform.position, initialPos) <= 0)  {
+        if (playerIsWithin(distance) || isAggro) {
 
-            } else //otherwise go back and forth on platform
-            {
-                //get linecast for bottom corner of enemy in direction its moving
-                Vector2 lineCastPos = trans.position + (trans.right * width);
+            Vector3 temp = Vector2.MoveTowards(transform.position, pixiePos.position, speed * Time.deltaTime);
+            temp.y = transform.position.y;
+            transform.position = temp;
 
-                //returns true if line is colliding with anything other than stuff on the enemy layer
-                bool isGrounded = Physics2D.Linecast(lineCastPos, lineCastPos + Vector2.down, enemyMask);
-
-                //if no ground, turn around
-                if (!isGrounded)
-                {
-                    Vector3 rotation = trans.eulerAngles;
-                    rotation.y = (rotation.y == 0 ? 180 : 0);
-                    trans.eulerAngles = rotation;
+            // if in closer distance, jump
+            // can't jump again until pixie reenters said closer distance
+            if (playerIsWithin(jumpDistance)) {
+                if(canJump) {
+                    Debug.Log("jump");
+                    jumpAtTarget(pixiePos.position);
+                    canJump = false;
                 }
-                //always move forward
-                Vector2 vel = rb.velocity;
-                vel.x = trans.right.x * speed;
-                rb.velocity = vel;
+            } else {
+                canJump = true;
             }
-        }
 
-        
+            // once see target, become aggro
+            isAggro = true;
+        } else {
+            //get linecast for bottom corner of enemy in direction its moving
+            Vector2 lineCastPos = trans.position + (trans.right * width);
+
+            //returns true if line is colliding with anything other than stuff on the enemy layer
+            bool isGrounded = Physics2D.Linecast(lineCastPos, lineCastPos + Vector2.down, enemyMask);
+
+            //if no ground, turn around
+            if (!isGrounded)
+            {
+                Vector3 rotation = trans.eulerAngles;
+                rotation.y = (rotation.y == 0 ? 180 : 0);
+                trans.eulerAngles = rotation;
+            }
+            //always move forward
+            Vector2 vel = rb.velocity;
+            vel.x = trans.right.x * speed;
+            rb.velocity = vel;
+        }
+    }
+
+    void jumpAtTarget(Vector3 targetPos) {
+        Vector3 force = (targetPos - transform.position) * jumpForce;
+        force.y += jumpHeight; // aim for the head
+        rb.AddForce(force);
+        canJump = false;
+        jumping = true;
+    }
+
+    bool isGrounded() {
+        Vector2 lineCastPos = trans.position + (trans.right * width);
+        return Physics2D.Linecast(lineCastPos, lineCastPos + Vector2.down * 0.5f, enemyMask);
+    }
+
+    bool playerIsWithin(float d) {
+        return Vector2.Distance(transform.position, pixiePos.position) < d;
     }
 }
