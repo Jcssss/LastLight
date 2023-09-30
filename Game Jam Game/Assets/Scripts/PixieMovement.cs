@@ -17,14 +17,31 @@ public class PixieMovement : MonoBehaviour
 
     private float lastFired;
     public float firingCooldown = 3.0f;
+
+    public float detectionRadius = 1.0f;
+    public ContactFilter2D ContactFilter;
 	
 
     void Update() {
+        // holding down mouse button
         if(Input.GetMouseButton(0)) {
             mouseDown = true;
         } else {
             mouseDown = false;
         }
+
+        // get surroundings
+        List<Collider2D> results = new List<Collider2D>();
+        Physics2D.OverlapCircle(transform.position, detectionRadius, ContactFilter.NoFilter(), results);
+
+        foreach (Collider2D target in results) {
+
+            if(target.gameObject.tag.Equals("Lantern")) {
+                target.gameObject.GetComponent<Lantern>().Activate();
+            }
+        }
+            
+
     }
 
     // Update is called once per frame
