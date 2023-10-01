@@ -82,12 +82,13 @@ public class CharacterController2D : MonoBehaviour
 
 	public void Move(float move, bool crouch, bool jump, bool holdingJump)
 	{
+
 		// track last jump press for jump buffer
 		if (jump) {
 			_lastJumpPressed = Time.time;
 		}
 
-
+		/* commented out cuz we don't crouch
 		// If crouching, check to see if the character can stand up
 		if (!crouch)
 		{
@@ -97,6 +98,8 @@ public class CharacterController2D : MonoBehaviour
 				crouch = true;
 			}
 		}
+		*/
+
 
 		//only control the player if grounded or airControl is turned on
 		if (m_Grounded || m_AirControl)

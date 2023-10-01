@@ -26,11 +26,16 @@ public class PixieMovement : MonoBehaviour
 
     // attachment variables
     private bool isAttached = false;
+    private bool isInitialized = false;
+    private Vector3 startPosition;
     
     // idle variables
     public float idleBobFrequency = 1.0f;
     public float idleBobMagnitude = 1.0f;
 	
+    void Awake() {
+        startPosition = transform.position;
+    }
 
     void Update() {
         if(Input.GetMouseButton(0)) {
@@ -53,6 +58,8 @@ public class PixieMovement : MonoBehaviour
 
             if (hit.gameObject.tag.Equals("Lantern")) {
                 hit.gameObject.GetComponent<Lantern>().Activate();
+            } else if (hit.gameObject.tag.Equals("LanternNoKill")) {
+                hit.gameObject.GetComponent<LanternNoKill>().Activate();
             } else if (hit.gameObject.tag.Equals("Player") && !firing) {
                 Attach();
             }
@@ -67,6 +74,8 @@ public class PixieMovement : MonoBehaviour
         }
 
         if (firing) {
+            Debug.Log("firing");
+
             // check if done firing
             Vector3 difference = transform.position - targetPosition;
             float sqrDiff = Vector3.SqrMagnitude(difference);
@@ -75,7 +84,6 @@ public class PixieMovement : MonoBehaviour
             MoveToward(targetPosition);
 
         } else if(mouse2Down) {
-            Debug.Log("recall");
             Attach();
         }
 
@@ -85,7 +93,13 @@ public class PixieMovement : MonoBehaviour
 
         // idle bob
         if(idleBobFrequency <= 0) idleBobFrequency = 0.001f;
-        Vector3 pos = isAttached? offsetToPlayer.position : targetPosition;
+        Vector3 pos;
+
+        if(isInitialized) {
+            pos = isAttached? offsetToPlayer.position : targetPosition;
+        } else {
+            pos = startPosition;
+        }
         pos.y += Mathf.Sin(Time.time / idleBobFrequency) * idleBobMagnitude;
         MoveToward(pos);
     }
@@ -99,6 +113,7 @@ public class PixieMovement : MonoBehaviour
     }
 
     private void Attach() {
+        isInitialized = true;
         isAttached = true;
     }
 
@@ -114,6 +129,8 @@ public class PixieMovement : MonoBehaviour
 
     void OnValidate() {
         if(idleBobFrequency < 0) {
+            // zero so that editor looks pretty
+            // will change from zero to 0.001f in script
             idleBobFrequency = 0;
         }
     }

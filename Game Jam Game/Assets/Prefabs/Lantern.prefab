@@ -10,7 +10,7 @@ GameObject:
   m_Component:
   - component: {fileID: 8145472234780796448}
   - component: {fileID: 5479365287903648998}
-  m_Layer: 0
+  m_Layer: 3
   m_Name: LanternLight
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -92,9 +92,10 @@ GameObject:
   m_Component:
   - component: {fileID: 1626996230193943780}
   - component: {fileID: 8989865029762248665}
-  m_Layer: 0
+  - component: {fileID: 4370633450215157164}
+  m_Layer: 3
   m_Name: Lantern
-  m_TagString: Untagged
+  m_TagString: Lantern
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -127,8 +128,21 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: bd1a2cdcfc5c4a140853dc2cee54cc8e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  ContactFilter:
+    useTriggers: 0
+    useLayerMask: 0
+    useDepth: 0
+    useOutsideDepth: 0
+    useNormalAngle: 0
+    useOutsideNormalAngle: 0
+    layerMask:
+      serializedVersion: 2
+      m_Bits: 0
+    minDepth: 0
+    maxDepth: 0
+    minNormalAngle: 0
+    maxNormalAngle: 0
   lantern: {fileID: 5479365287903648998}
-  curLightLevel: 0
   lightSmoothing: 0.6
   lightLevels:
   - intensity: 0.1
@@ -137,3 +151,25 @@ MonoBehaviour:
   - intensity: 1
     innerRadius: 0
     outerRadius: 2
+  isActive: 0
+--- !u!65 &4370633450215157164
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5747627212591573453}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 1
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Size: {x: 1, y: 1, z: 1}
+  m_Center: {x: 0, y: 0, z: 0}
