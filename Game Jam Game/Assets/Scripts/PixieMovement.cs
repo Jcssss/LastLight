@@ -15,6 +15,7 @@ public class PixieMovement : MonoBehaviour
 
     // firing variables
     private bool mouseDown = false;
+    private bool mouse2Down = false;
     private bool canFire = true;
     private bool firing = false;
     private float lastFired;
@@ -25,18 +26,28 @@ public class PixieMovement : MonoBehaviour
 
     // attachment variables
     private bool isAttached = false;
+    private bool isInitialized = false;
+    private Vector3 startPosition;
     
     // idle variables
     public float idleBobFrequency = 1.0f;
     public float idleBobMagnitude = 1.0f;
 	
+    void Awake() {
+        startPosition = transform.position;
+    }
 
     void Update() {
-        // holding down mouse button
         if(Input.GetMouseButton(0)) {
             mouseDown = true;
         } else {
             mouseDown = false;
+        }
+
+        if(Input.GetMouseButton(1)) {
+            mouse2Down = true;
+        } else {
+            mouse2Down = false;
         }
 
         // get surroundings
@@ -45,40 +56,52 @@ public class PixieMovement : MonoBehaviour
 
         foreach (Collider2D hit in results) {
 
-            if(hit.gameObject.tag.Equals("Lantern")) {
+            if (hit.gameObject.tag.Equals("Lantern")) {
                 hit.gameObject.GetComponent<Lantern>().Activate();
+            } else if (hit.gameObject.tag.Equals("LanternNoKill")) {
+                hit.gameObject.GetComponent<LanternNoKill>().Activate();
             } else if (hit.gameObject.tag.Equals("Player") && !firing) {
                 Attach();
             }
-        }
-            
-
+        } 
     }
 
     void FixedUpdate() {	
         
-        if(mouseDown && canFire){
+        if(mouseDown && canFire && isAttached){
             Fire();
             Detach();
         }
 
         if (firing) {
+            Debug.Log("firing");
+
             // check if done firing
             Vector3 difference = transform.position - targetPosition;
             float sqrDiff = Vector3.SqrMagnitude(difference);
-            if(sqrDiff < 0.001f) firing = false;
+            if(sqrDiff < 0.5f) firing = false;
 
             MoveToward(targetPosition);
 
-        } else if (isAttached) {
-            Vector3 pos = offsetToPlayer.position;
-            pos.y += Mathf.Sin(Time.time / idleBobFrequency) * idleBobMagnitude;
-            MoveToward(pos);
+        } else if(mouse2Down) {
+            Attach();
         }
 
         if (lastFired + firingCooldown < Time.time) {
             canFire = true;
         }
+
+        // idle bob
+        if(idleBobFrequency <= 0) idleBobFrequency = 0.001f;
+        Vector3 pos;
+
+        if(isInitialized) {
+            pos = isAttached? offsetToPlayer.position : targetPosition;
+        } else {
+            pos = startPosition;
+        }
+        pos.y += Mathf.Sin(Time.time / idleBobFrequency) * idleBobMagnitude;
+        MoveToward(pos);
     }
 
     private void Fire() {
@@ -90,6 +113,7 @@ public class PixieMovement : MonoBehaviour
     }
 
     private void Attach() {
+        isInitialized = true;
         isAttached = true;
     }
 
@@ -104,8 +128,10 @@ public class PixieMovement : MonoBehaviour
     }
 
     void OnValidate() {
-        if(idleBobFrequency <= 0.001f) {
-            idleBobFrequency = 0.001f;
+        if(idleBobFrequency < 0) {
+            // zero so that editor looks pretty
+            // will change from zero to 0.001f in script
+            idleBobFrequency = 0;
         }
     }
 }
