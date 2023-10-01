@@ -1,6 +1,8 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Rendering.Universal;
+
 public enum StartDirection {UpRight, DownLeft}
 public enum Movement {Horizontal, Vertical}
 public class MovingPlatform : MonoBehaviour
@@ -8,12 +10,17 @@ public class MovingPlatform : MonoBehaviour
     [SerializeField] private float moveSpeed;	
     [SerializeField] private float travelDistanceUpRight;	
     [SerializeField] private float travelDistanceDownLeft;	
+    [SerializeField] private float moveTime;
     [SerializeField] private StartDirection initialDirecion;
     [SerializeField] private Movement movement;
     [SerializeField] private bool isActivatable;
+    [SerializeField] private float lightFlickerFrequency;
+    [Range(0, 1)][SerializeField] private float minLightIntensity;
     public GameObject light;
     private Vector3 initialPosition;
     private float curMoveSpeed;
+    private float timeSinceStart;
+    private float intensityIncrements;
 
     void Awake()
     {
@@ -24,6 +31,8 @@ public class MovingPlatform : MonoBehaviour
         initialPosition = transform.position;
 
         curMoveSpeed = (isActivatable)? 0 : moveSpeed;
+
+        intensityIncrements = -(1 - minLightIntensity) / lightFlickerFrequency;
     }
 
     // Update is called once per frame
@@ -47,14 +56,32 @@ public class MovingPlatform : MonoBehaviour
                 curMoveSpeed *= -1;
             }
         }
+
+        if (curMoveSpeed != 0) {
+            timeSinceStart += Time.deltaTime;
+            if (timeSinceStart >= moveTime) {
+                curMoveSpeed = 0;
+                light.SetActive(false);
+            }
+
+            Debug.Log(light.GetComponent<Light2D>().intensity);
+            light.GetComponent<Light2D>().intensity += intensityIncrements * Time.deltaTime;
+            if (intensityIncrements >= 0 && light.GetComponent<Light2D>().intensity >= 1) {
+                intensityIncrements *= -1;
+            } else if (intensityIncrements <= 0 && light.GetComponent<Light2D>().intensity <= minLightIntensity) {
+                intensityIncrements *= -1;
+            }
+        }
     }
 
     public void Activate () {
-        Debug.Log("hello");
         if (isActivatable && curMoveSpeed == 0)
         {
             curMoveSpeed = moveSpeed;
             light.SetActive(true);
+            timeSinceStart = 0;
+            light.GetComponent<Light2D>().intensity = 1;
+            intensityIncrements = -Mathf.Abs(intensityIncrements);
         }
     }
 }
