@@ -70,11 +70,12 @@ public class PixieMovement : MonoBehaviour
             // check if done firing
             Vector3 difference = transform.position - targetPosition;
             float sqrDiff = Vector3.SqrMagnitude(difference);
-            if(sqrDiff < 0.001f) firing = false;
+            if(sqrDiff < 0.5f) firing = false;
 
             MoveToward(targetPosition);
 
         } else if(mouse2Down) {
+            Debug.Log("recall");
             Attach();
         }
 
