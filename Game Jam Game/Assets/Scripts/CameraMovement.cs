@@ -5,11 +5,14 @@ using UnityEngine;
 public class CameraMovement : MonoBehaviour
 {
 
-    [SerializeField] private Transform target;
+    public Transform target;
+    public Transform target2;
     public CharacterController2D controller;
 
-    private float cameraHeight = 0;
-    private float cameraDepth = -10f;
+    [Range(0,1)]
+    public float targetWeighting;
+
+    private float cameraDepth = -10;
 
     private Vector3 offset = new Vector3(0f, 0f, -10f);
     private float smoothTime = 0.25f;
@@ -21,24 +24,9 @@ public class CameraMovement : MonoBehaviour
     // Update is called once per frame
     void FixedUpdate()
     {
-        
-        Vector3 targetPosition = target.position + offset;
-        targetPosition.y = cameraHeight;
-        targetPosition.x += controller.FacingRight() ? leadingCameraOffset : -leadingCameraOffset;
+        Vector3 targetPosition = targetWeighting * target.position + (1 - targetWeighting) * target2.position;
+        targetPosition.z = cameraDepth;
         transform.position = Vector3.SmoothDamp(transform.position, targetPosition, ref velocity, smoothTime);
 
-    }
-
-    // for sticking directly on target
-    Vector3 TargetPosition() {
-        Vector3 pos = target.position;
-        pos.z = cameraDepth;
-
-        return pos;
-    }
-
-    // for only following target x
-    Vector3 TargetX() {
-        return new Vector3(target.position.x, cameraHeight, cameraDepth);
     }
 }
