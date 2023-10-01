@@ -49,7 +49,7 @@ public class CrawlingEnemy : MonoBehaviour
 
         //go towards pixie if in range
         if (targetIsWithin(pixieTransform, pixieAggroDistance) || (targetIsWithin(playerTransform, playerAggroDistance))) {
-            
+
             if(!isGrounded()) return;
 
             // prioritize pixie (this is only really noticable for jumping)
@@ -77,6 +77,8 @@ public class CrawlingEnemy : MonoBehaviour
 
         } else {
             
+            //Debug.Log("pacing");
+
             // once you drop aggro can jump again
             canJump = true;
 
@@ -85,7 +87,10 @@ public class CrawlingEnemy : MonoBehaviour
                 Vector3 rotation = transform.eulerAngles;
                 rotation.y = (rotation.y == 0 ? 180 : 0);
                 transform.eulerAngles = rotation;
+
+                //Debug.Log("Grounded? " + isGrounded() + ", Wall? " + isHittingWall());
             }
+
             //always move forward
             Vector2 targetVelocity = rb.velocity;
             targetVelocity.x = transform.right.x * speed;
@@ -112,14 +117,6 @@ public class CrawlingEnemy : MonoBehaviour
         Vector2 dir = (rotation.y == 0 ? 1 : -1) * Vector2.right * 0.05f;
 
         return Physics2D.Linecast(lineCastPos, lineCastPos + dir, enemyMask);
-    }
-
-    bool pixieIsWithin(float d) {
-        return Vector2.Distance(transform.position, pixieTransform.position) < d;
-    }
-
-    bool playerIsWithin(float d) {
-        return Vector2.Distance(transform.position, playerTransform.position) < d;
     }
 
     bool targetIsWithin(Transform t, float d) {
