@@ -6,6 +6,8 @@ TagManager:
   tags:
   - Lantern
   - Enemy
+  - Pixie
+  - Platform
   layers:
   - Default
   - TransparentFX

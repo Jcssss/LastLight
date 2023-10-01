@@ -51,14 +51,12 @@ public class PixieMovement : MonoBehaviour
 
         foreach (Collider2D hit in results) {
 
-            if(hit.gameObject.tag.Equals("Lantern")) {
+            if (hit.gameObject.tag.Equals("Lantern")) {
                 hit.gameObject.GetComponent<Lantern>().Activate();
             } else if (hit.gameObject.tag.Equals("Player") && !firing) {
                 Attach();
             }
-        }
-            
-
+        } 
     }
 
     void FixedUpdate() {	
