@@ -27,14 +27,14 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 174069547437167501}
-  m_LocalRotation: {x: 0, y: 0, z: -0.7378175, w: 0.6750003}
+  m_LocalRotation: {x: 0, y: 0, z: -0.7378195, w: 0.6749981}
   m_LocalPosition: {x: -9.22, y: 4.01, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 0
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_RootOrder: 7
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: -95.092}
 --- !u!114 &3971760517540071983
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -97,7 +97,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8f038b7242064004aa033a12db118957, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  platforms: []
+  platforms:
+  - {fileID: 0}
   beginOn: 0
 --- !u!58 &7240763150442774066
 CircleCollider2D:
@@ -133,7 +134,7 @@ CircleCollider2D:
   m_UsedByComposite: 0
   m_Offset: {x: 0, y: 0}
   serializedVersion: 2
-  m_Radius: 0.2
+  m_Radius: 0.5
 --- !u!50 &6636180689074701305
 Rigidbody2D:
   serializedVersion: 4
