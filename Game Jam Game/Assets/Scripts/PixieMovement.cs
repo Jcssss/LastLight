@@ -58,6 +58,8 @@ public class PixieMovement : MonoBehaviour
 
             if (hit.gameObject.tag.Equals("Lantern")) {
                 hit.gameObject.GetComponent<Lantern>().Activate();
+            } else if (hit.gameObject.tag.Equals("LanternNoKill")) {
+                hit.gameObject.GetComponent<LanternNoKill>().Activate();
             } else if (hit.gameObject.tag.Equals("Player") && !firing) {
                 Attach();
             }
