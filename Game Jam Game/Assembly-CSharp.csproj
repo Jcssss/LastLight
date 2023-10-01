@@ -59,10 +59,18 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Assets\Scripts\LanternNoKill.cs" />
+    <Compile Include="Assets\Scripts\CameraMovement.cs" />
+    <Compile Include="Assets\Scripts\AqScripts\healthBar.cs" />
     <Compile Include="Assets\Scripts\PixieMovement.cs" />
+    <Compile Include="Assets\Scripts\AqScripts\heartHealth.cs" />
     <Compile Include="Assets\Scripts\Lantern.cs" />
     <Compile Include="Assets\Scripts\CharacterController2D.cs" />
     <Compile Include="Assets\Scripts\CrawlingEnemy.cs" />
+    <Compile Include="Assets\Scripts\LightFlicker.cs" />
+    <Compile Include="Assets\Scripts\PixieActivatePlatform.cs" />
+    <Compile Include="Assets\Scripts\MovingPlatform.cs" />
+    <Compile Include="Assets\Scripts\AqScripts\EnemyDamage.cs" />
+    <Compile Include="Assets\Scripts\AqScripts\playerHealth.cs" />
     <Compile Include="Assets\Scripts\PlayerMovement.cs" />
   </ItemGroup>
   <ItemGroup>
