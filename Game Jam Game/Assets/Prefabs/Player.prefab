@@ -40,7 +40,7 @@ Transform:
   - {fileID: 5225599975574806294}
   - {fileID: 2695817332496887197}
   m_Father: {fileID: 0}
-  m_RootOrder: 1
+  m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!212 &3996039617080541538
 SpriteRenderer:
@@ -112,7 +112,7 @@ MonoBehaviour:
   m_AirControl: 1
   m_WhatIsGround:
     serializedVersion: 2
-    m_Bits: 55
+    m_Bits: 4294967295
   m_GroundCheck: {fileID: 5925155750252712535}
   m_CeilingCheck: {fileID: 5820295953714617094}
   m_CrouchDisableCollider: {fileID: 0}
