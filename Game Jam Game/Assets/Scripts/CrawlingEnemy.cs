@@ -32,6 +32,9 @@ public class CrawlingEnemy : MonoBehaviour
     // rigidbody movement
     Vector3 v = Vector3.zero; 
     float smoothTime = 0.3f;
+
+    // animation
+    public Animator animator;
     
 
     void Start()
@@ -46,6 +49,8 @@ public class CrawlingEnemy : MonoBehaviour
     }
 
     void FixedUpdate() {
+
+        if(isGrounded()) animator.SetBool("isJumping", false);
 
         //go towards pixie if in range
         if (targetIsWithin(pixieTransform, pixieAggroDistance) || (targetIsWithin(playerTransform, playerAggroDistance))) {
@@ -74,6 +79,7 @@ public class CrawlingEnemy : MonoBehaviour
                     jumpAtTarget(targetTransform.position);
                     canJump = false;
                     lastJumped = Time.time;
+                    animator.SetBool("isJumping", true);
                 }
             }
 
@@ -83,6 +89,8 @@ public class CrawlingEnemy : MonoBehaviour
 
             // once you drop aggro can jump again
             canJump = true;
+
+            //Debug.Log(isGrounded() + ", " + isHittingWall());
 
             //if no ground or is hitting wall, turn around
             if (!isGrounded() || isHittingWall()) {
@@ -123,7 +131,7 @@ public class CrawlingEnemy : MonoBehaviour
 
     bool isGrounded() {
         Vector2 lineCastPos = transform.position + (transform.right * width);
-        return Physics2D.Linecast(lineCastPos, lineCastPos + Vector2.down, enemyMask);
+        return Physics2D.Linecast(lineCastPos, lineCastPos + Vector2.down * 2f, enemyMask);
     }
 
     bool isHittingWall() {
