@@ -15,6 +15,7 @@ GameObject:
   - component: {fileID: 4502451181917760722}
   - component: {fileID: 4860891051153918213}
   - component: {fileID: 8493018436906496381}
+  - component: {fileID: 1609347507461175152}
   m_Layer: 3
   m_Name: Player
   m_TagString: Player
@@ -39,7 +40,7 @@ Transform:
   - {fileID: 5225599975574806294}
   - {fileID: 2695817332496887197}
   m_Father: {fileID: 0}
-  m_RootOrder: 2
+  m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!212 &3996039617080541538
 SpriteRenderer:
@@ -105,13 +106,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d26883b92c11f05458042a2ff774e1a1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_JumpForce: 640
+  m_JumpForce: 620
   m_CrouchSpeed: 0.4
   m_MovementSmoothing: 0.05
   m_AirControl: 1
   m_WhatIsGround:
     serializedVersion: 2
-    m_Bits: 375
+    m_Bits: 4294967295
   m_GroundCheck: {fileID: 5925155750252712535}
   m_CeilingCheck: {fileID: 5820295953714617094}
   m_CrouchDisableCollider: {fileID: 0}
@@ -222,6 +223,23 @@ Animator:
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorStateOnDisable: 0
   m_WriteDefaultValuesOnDisable: 0
+--- !u!114 &1609347507461175152
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 334351507370109574}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c529cf9ef0c23654789051a50fa29745, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  curHealth: 3
+  maxHealth: 3
+  damageCool: 1.5
+  lastDamaged: 0
+  gameOverMenu: {fileID: 0}
 --- !u!1 &4017587704614455402
 GameObject:
   m_ObjectHideFlags: 0

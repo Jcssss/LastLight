@@ -63,7 +63,7 @@ public class PixieMovement : MonoBehaviour
             } else if (hit.gameObject.tag.Equals("Player") && !firing) {
                 Attach();
             }
-        } 
+        }
     }
 
     void FixedUpdate() {	
