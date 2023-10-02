@@ -74,11 +74,10 @@ public class PixieMovement : MonoBehaviour
         }
 
         if (firing) {
-            Debug.Log("firing");
 
             // check if done firing
-            Vector3 difference = transform.position - targetPosition;
-            float sqrDiff = Vector3.SqrMagnitude(difference);
+            Vector2 difference = transform.position - targetPosition;
+            float sqrDiff = Vector2.SqrMagnitude(difference);
             if(sqrDiff < 0.5f) firing = false;
 
             MoveToward(targetPosition);
@@ -123,7 +122,7 @@ public class PixieMovement : MonoBehaviour
 
     private void MoveToward(Vector3 targetPosition) {
         Vector3 newPos = Vector3.SmoothDamp(transform.position, targetPosition, ref velocity, smoothTime);
-        newPos.z = 0;
+        newPos.z = 1;
         transform.position = newPos;
     }
 
