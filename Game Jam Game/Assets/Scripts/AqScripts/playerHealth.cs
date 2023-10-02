@@ -49,7 +49,7 @@ public class playerHealth : MonoBehaviour
 
     public void goToMenu()
     {   
-        Debug.Log("Hello");
+        Time.timeScale = 1;
         SceneManager.LoadScene("LevelSelect", LoadSceneMode.Single);
     }
     public void ResetGame()
