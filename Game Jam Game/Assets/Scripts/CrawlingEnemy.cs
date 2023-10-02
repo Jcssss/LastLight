@@ -59,6 +59,10 @@ public class CrawlingEnemy : MonoBehaviour
             Vector3 dir = targetTransform.position - transform.position;
             dir = Vector3.Normalize(dir);
 			Vector3 targetVelocity = new Vector2(dir.x * 10f, rb.velocity.y);
+
+            if (isFacingWrongWay(targetVelocity.x)) {
+                flip();
+            }
 			
             // And then smoothing it out and applying it to the character
 			rb.velocity = Vector3.SmoothDamp(rb.velocity, targetVelocity, ref v, smoothTime);
@@ -76,21 +80,38 @@ public class CrawlingEnemy : MonoBehaviour
             if (lastJumped + jumpCooldown < Time.time) canJump = true;
 
         } else {
-            
+
             // once you drop aggro can jump again
             canJump = true;
 
             //if no ground or is hitting wall, turn around
             if (!isGrounded() || isHittingWall()) {
-                Vector3 rotation = transform.eulerAngles;
-                rotation.y = (rotation.y == 0 ? 180 : 0);
-                transform.eulerAngles = rotation;
+                flip();
             }
+
             //always move forward
             Vector2 targetVelocity = rb.velocity;
             targetVelocity.x = transform.right.x * speed;
             rb.velocity = Vector3.SmoothDamp(rb.velocity, targetVelocity, ref v, smoothTime);
         }
+    }
+
+    bool isFacingWrongWay(float xVelocity) {
+        Vector3 rotation = transform.eulerAngles;
+
+        if (xVelocity > 0 && rotation.y == 180) {
+            return true;
+        } else if (xVelocity < 0 && rotation.y == 0) {
+            return true;
+        }
+
+        return false;
+    }
+
+    void flip() {
+        Vector3 rotation = transform.eulerAngles;
+        rotation.y = (rotation.y == 0 ? 180 : 0);
+        transform.eulerAngles = rotation;
     }
 
     void jumpAtTarget(Vector3 targetPos) {
@@ -112,14 +133,6 @@ public class CrawlingEnemy : MonoBehaviour
         Vector2 dir = (rotation.y == 0 ? 1 : -1) * Vector2.right * 0.05f;
 
         return Physics2D.Linecast(lineCastPos, lineCastPos + dir, enemyMask);
-    }
-
-    bool pixieIsWithin(float d) {
-        return Vector2.Distance(transform.position, pixieTransform.position) < d;
-    }
-
-    bool playerIsWithin(float d) {
-        return Vector2.Distance(transform.position, playerTransform.position) < d;
     }
 
     bool targetIsWithin(Transform t, float d) {

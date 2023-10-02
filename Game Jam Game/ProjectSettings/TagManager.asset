@@ -3,17 +3,23 @@
 --- !u!78 &1
 TagManager:
   serializedVersion: 2
-  tags: []
+  tags:
+  - Enemy
+  - LanternNoKill
+  - Lantern
+  - Pixie
+  - Platform
+  - MovingPlatformLantern
   layers:
   - Default
   - TransparentFX
   - Ignore Raycast
-  - 
+  - Player
   - Water
   - UI
-  - 
-  - 
-  - 
+  - Enemy
+  - Pixie
+  - Oneway
   - 
   - 
   - 

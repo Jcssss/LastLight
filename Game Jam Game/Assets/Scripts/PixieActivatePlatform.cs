@@ -6,10 +6,9 @@ public class PixieActivatePlatform : MonoBehaviour
 {
     void OnTriggerEnter2D(Collider2D other)
     {
-        //Debug.Log("Yes");
-        if (other.gameObject.tag == "Platform")
+        if (other.gameObject.tag == "MovingPlatformLantern")
         {
-            other.gameObject.GetComponent<MovingPlatform>().Activate();
+            other.gameObject.GetComponent<LanternActivatePlatform>().Activate();
         }
     }
 }
