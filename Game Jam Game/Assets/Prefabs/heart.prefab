@@ -90,4 +90,4 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   fullHeart: {fileID: 21300000, guid: f87d06cb6bbf2254fa1d84216a93c80b, type: 3}
-  noHeart: {fileID: 10901, guid: 0000000000000000f000000000000000, type: 0}
+  noHeart: {fileID: 0}

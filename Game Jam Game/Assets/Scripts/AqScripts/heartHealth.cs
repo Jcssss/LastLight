@@ -18,9 +18,10 @@ public class heartHealth : MonoBehaviour
         switch (status)
         {
             case heartStatus.Empty:
-                heartImage.sprite = noHeart;
+                heartImage.enabled = false; //don't display any image
                 break;
             case heartStatus.Full:
+                heartImage.enabled = true;
                 heartImage.sprite = fullHeart;
                 break;
         }
