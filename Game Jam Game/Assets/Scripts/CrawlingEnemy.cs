@@ -49,7 +49,7 @@ public class CrawlingEnemy : MonoBehaviour
 
         //go towards pixie if in range
         if (targetIsWithin(pixieTransform, pixieAggroDistance) || (targetIsWithin(playerTransform, playerAggroDistance))) {
-
+            
             if(!isGrounded()) return;
 
             // prioritize pixie (this is only really noticable for jumping)
@@ -59,6 +59,10 @@ public class CrawlingEnemy : MonoBehaviour
             Vector3 dir = targetTransform.position - transform.position;
             dir = Vector3.Normalize(dir);
 			Vector3 targetVelocity = new Vector2(dir.x * 10f, rb.velocity.y);
+
+            if (isFacingWrongWay(targetVelocity.x)) {
+                flip();
+            }
 			
             // And then smoothing it out and applying it to the character
 			rb.velocity = Vector3.SmoothDamp(rb.velocity, targetVelocity, ref v, smoothTime);
@@ -76,19 +80,13 @@ public class CrawlingEnemy : MonoBehaviour
             if (lastJumped + jumpCooldown < Time.time) canJump = true;
 
         } else {
-            
-            //Debug.Log("pacing");
 
             // once you drop aggro can jump again
             canJump = true;
 
             //if no ground or is hitting wall, turn around
             if (!isGrounded() || isHittingWall()) {
-                Vector3 rotation = transform.eulerAngles;
-                rotation.y = (rotation.y == 0 ? 180 : 0);
-                transform.eulerAngles = rotation;
-
-                //Debug.Log("Grounded? " + isGrounded() + ", Wall? " + isHittingWall());
+                flip();
             }
 
             //always move forward
@@ -96,6 +94,24 @@ public class CrawlingEnemy : MonoBehaviour
             targetVelocity.x = transform.right.x * speed;
             rb.velocity = Vector3.SmoothDamp(rb.velocity, targetVelocity, ref v, smoothTime);
         }
+    }
+
+    bool isFacingWrongWay(float xVelocity) {
+        Vector3 rotation = transform.eulerAngles;
+
+        if (xVelocity > 0 && rotation.y == 180) {
+            return true;
+        } else if (xVelocity < 0 && rotation.y == 0) {
+            return true;
+        }
+
+        return false;
+    }
+
+    void flip() {
+        Vector3 rotation = transform.eulerAngles;
+        rotation.y = (rotation.y == 0 ? 180 : 0);
+        transform.eulerAngles = rotation;
     }
 
     void jumpAtTarget(Vector3 targetPos) {
