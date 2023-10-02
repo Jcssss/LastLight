@@ -48,8 +48,9 @@ public class playerHealth : MonoBehaviour
     }
 
     public void goToMenu()
-    {
-   
+    {   
+        Debug.Log("Hello");
+        SceneManager.LoadScene("LevelSelect", LoadSceneMode.Single);
     }
     public void ResetGame()
     {
