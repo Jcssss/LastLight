@@ -4,7 +4,7 @@ A 2D Platformer, designed using Unity, in which the player must control the char
 ### How to Play
 To play the game, download the Windows folder and run the "Game Jam.exe" file. A zip file can be found on our (official submission page)[https://ldjam.com/events/ludum-dare/54/last-light]
 
-##### Controls:
+#### Controls:
  - Use **WASD** to move and jump
  - **Left click** on the screen to cast the pixie to that location (You can only throw the pixie if it's recalled)
  - **Right click** anywhere or walk over the pixie to recall it
