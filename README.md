@@ -17,3 +17,7 @@ This game was built in 48 hours and submitted for the Ludum Dare 54 Game Jam. Th
 The game was designed around the theme for the Game Jam: "Limited Space". Based on the theme, our team wanted to create a game that felt cramped, offering players little room to work with. From there, we came up with the idea of limited light using the darkness as our main method to keep the player enclosed and the rest of the mechanics followed shortly after.
 
 ### My Role
+For this project, I was mainly in charge of the following features:
+1. The tile map system used to create obstacles and platforms
+2. Creating the scripts and prefabs for moving platforms (both activated and constant platforms)
+3. Designing the Start Screen, Level Select Screen, and the Win Screen
