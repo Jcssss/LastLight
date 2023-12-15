@@ -2,7 +2,7 @@
 A 2D Platformer, designed using Unity, in which the player must control the character and their companion, Pixie, in order to climb the lighthouse and escape the darkness inside. Pixie acts as your main light source, allowing you to scout the abyss while also acting as a beacon to distract enemies and light torches. This game was created on a team of 6 for the Ludum Dare 54 Game Jam.
 
 ### How to Play
-To play the game, download the Windows folder and run the "Game Jam.exe" file. A zip file can be found on our (official submission page)[https://ldjam.com/events/ludum-dare/54/last-light]
+To play the game, download the Windows folder and run the "Game Jam.exe" file. A zip file can be found on our [official submission page](https://ldjam.com/events/ludum-dare/54/last-light)
 
 #### Controls:
  - Use **WASD** to move and jump
